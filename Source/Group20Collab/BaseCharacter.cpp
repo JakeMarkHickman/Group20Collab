@@ -7,7 +7,10 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include <Kismet/KismetMathLibrary.h>
 
+
 // Sets default values
+static const FName CameraBoomName = "CameraBoom";
+static const FName CameraName = "FollowCamera";
 ABaseCharacter::ABaseCharacter()
 {
 	// Don't rotate when the controller rotates. Let that just affect the camera.
@@ -18,13 +21,13 @@ ABaseCharacter::ABaseCharacter()
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 500.0f, 0.0f);
 
-	_SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
+	_SpringArm = CreateDefaultSubobject<USpringArmComponent>(CameraBoomName);
 	_SpringArm->SetupAttachment(GetRootComponent());
 	_SpringArm->TargetArmLength = 450.0f;
 	_SpringArm->bUsePawnControlRotation = true;
 	_SpringArm->SetRelativeLocation(FVector(0, 0, 50));
 
-	_FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
+	_FollowCamera = CreateDefaultSubobject<UCameraComponent>(CameraName);
 	_FollowCamera->SetupAttachment(_SpringArm, USpringArmComponent::SocketName);
 	_FollowCamera->bUsePawnControlRotation = false;
 }
