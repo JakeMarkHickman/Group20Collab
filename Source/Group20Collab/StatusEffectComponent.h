@@ -1,0 +1,36 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Components/ActorComponent.h"
+#include "BaseStatusEffect.h"
+#include "StatusEffectComponent.generated.h"
+
+
+UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+class GROUP20COLLAB_API UStatusEffectComponent : public UActorComponent
+{
+	GENERATED_BODY()
+
+public:	
+	// Sets default values for this component's properties
+	UStatusEffectComponent();
+
+	UFUNCTION(BlueprintCallable)
+	void AddStatusEffect(TSubclassOf<class UBaseStatusEffect> Effect);
+
+	UFUNCTION(BlueprintCallable)
+	void RemoveStatusEffects();
+
+	UFUNCTION(BlueprintPure, Category = StatusEffect)
+	TArray<UBaseStatusEffect*> GetActiveStatusEffects() { return _ActiveStatusEffects; };
+
+	UFUNCTION()
+	void StatusEffectEnded(UBaseStatusEffect* StatusEffect);
+
+private:
+	TArray<TObjectPtr<UBaseStatusEffect>> _ActiveStatusEffects;
+
+		
+};
