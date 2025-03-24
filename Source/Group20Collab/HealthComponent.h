@@ -32,6 +32,9 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	float _MaxHealth;
+
+	UPROPERTY(VisibleAnywhere)
+	bool _IsDead;
 	
 public:
 	virtual void BeginPlay() override;
@@ -42,6 +45,12 @@ public:
 	void SetCurrentHealth(float value, AController* Instigator);
 	void SetMaxHealth(float value, AController* Instigator);
 
+	UFUNCTION(BlueprintPure, BlueprintCallable)
 	float GetCurrentHealth() { return _CurrentHealth; };
+	UFUNCTION(BlueprintPure, BlueprintCallable)
 	float GetMaxHealth() { return _MaxHealth; };
+	UFUNCTION(BlueprintPure, BlueprintCallable)
+	bool GetIsDead() { return _IsDead; };
+	
+
 };

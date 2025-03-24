@@ -4,7 +4,7 @@
 #include "HealthComponent.h"
 
 // Sets default values for this component's properties
-UHealthComponent::UHealthComponent(): _MaxHealth(100.f)
+UHealthComponent::UHealthComponent(): _MaxHealth(100.f), _IsDead(false)
 {
 	
 }
@@ -19,6 +19,11 @@ void UHealthComponent::BeginPlay()
 
 void UHealthComponent::TakeDamage(AActor* damagedActor, float damage, const UDamageType* damageType, AController* instigator, AActor* causer)
 {
+	if (_IsDead)
+	{
+		return;
+	}
+
 	float preHealth = _CurrentHealth;
 	SetCurrentHealth(_CurrentHealth - damage, instigator);
 	_OnHealthChanged.Broadcast(_CurrentHealth, damage, instigator);
@@ -26,16 +31,27 @@ void UHealthComponent::TakeDamage(AActor* damagedActor, float damage, const UDam
 
 void UHealthComponent::SetCurrentHealth(float value, AController* Instigator)
 {
+	if (_IsDead)
+	{
+		return;
+	}
+
 	_CurrentHealth = value;
 
 	if(_CurrentHealth <= 0)
 	{
+		_IsDead = true;
 		_OnDeath.Broadcast(Instigator);
 	}
 }
 
 void UHealthComponent::SetMaxHealth(float value, AController* Instigator)
 {
+	if (_IsDead)
+	{
+		return;
+	}
+
 	float HealthPercent = _CurrentHealth / _MaxHealth;
 	_OnMaxHealthChanged.Broadcast(value, _MaxHealth - value, Instigator);
 	
