@@ -30,6 +30,7 @@ public:
 	void StatusEffectEnded(UBaseStatusEffect* StatusEffect);
 
 private:
+	UPROPERTY(EditAnywhere)
 	TArray<TObjectPtr<UBaseStatusEffect>> _ActiveStatusEffects;
 
 		
