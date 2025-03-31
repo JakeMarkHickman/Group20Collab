@@ -7,6 +7,7 @@
 #include "BaseStatusEffect.h"
 #include "StatusEffectComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FStatusEffectComponent_EffectAdded, TSubclassOf<class UBaseStatusEffect>, effect);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class GROUP20COLLAB_API UStatusEffectComponent : public UActorComponent
@@ -16,6 +17,9 @@ class GROUP20COLLAB_API UStatusEffectComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UStatusEffectComponent();
+	
+	UPROPERTY(BlueprintAssignable, Category = StatusEffect)
+	FStatusEffectComponent_EffectAdded _OnStatusEffectAdded;
 
 	UFUNCTION(BlueprintCallable)
 	void AddStatusEffect(TSubclassOf<class UBaseStatusEffect> Effect);
