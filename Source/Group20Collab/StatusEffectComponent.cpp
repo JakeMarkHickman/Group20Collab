@@ -21,6 +21,9 @@ void UStatusEffectComponent::AddStatusEffect(TSubclassOf<class UBaseStatusEffect
 	UBaseStatusEffect* EffectToAdd = NewObject<UBaseStatusEffect>(this, Effect);
 
 	_ActiveStatusEffects.Add(EffectToAdd);
+
+	_OnStatusEffectAdded.Broadcast(Effect);
+
 	EffectToAdd->ApplyStatusEffect(GetOwner());
 	EffectToAdd->_OnStatusEffectEnded.AddDynamic(this, &UStatusEffectComponent::StatusEffectEnded);
 }
