@@ -2,6 +2,7 @@
 
 
 #include "HealthComponent.h"
+#include <Kismet/KismetMathLibrary.h>
 
 // Sets default values for this component's properties
 UHealthComponent::UHealthComponent(): _MaxHealth(100.f), _IsDead(false)
@@ -36,7 +37,9 @@ void UHealthComponent::SetCurrentHealth(float value, AController* Instigator)
 		return;
 	}
 
-	_CurrentHealth = value;
+	float updatedValue = UKismetMathLibrary::FClamp(value, 0.0f, _MaxHealth);
+
+	_CurrentHealth = updatedValue;
 
 	if(_CurrentHealth <= 0)
 	{
